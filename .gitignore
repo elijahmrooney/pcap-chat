@@ -1,0 +1,20 @@
+# Secrets
+.env
+
+# Uploaded captures (never commit user data)
+backend/uploads/
+*.pcap
+*.pcapng
+*.cap
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

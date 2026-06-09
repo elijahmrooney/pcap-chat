@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>pcap-chat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Serif:ital,wght@1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">▣</span>
+      <span class="brand-name">pcap-chat</span>
+      <span class="brand-sub" id="capture-label">/ packet forensics by conversation</span>
+    </div>
+    <div class="status">
+      <span class="status-dot" id="status-dot" data-state="idle"></span>
+      <span id="status-text">no capture loaded</span>
+    </div>
+  </header>
+
+  <div class="upload-row">
+    <label class="file-input">
+      <input type="file" id="file-input" accept=".pcap,.pcapng,.cap" />
+      <span class="file-input-label">↑ select pcap</span>
+    </label>
+    <div class="capture-info" id="capture-info">no file</div>
+    <button class="btn-ghost" id="reset-btn" title="Close session">reset</button>
+  </div>
+
+  <div class="provider-row">
+    <label>
+      <span class="label">provider</span>
+      <select id="provider">
+        <option value="anthropic">anthropic / claude</option>
+        <option value="openai">openai / gpt</option>
+        <option value="ollama">ollama / local</option>
+      </select>
+    </label>
+    <label>
+      <span class="label">model</span>
+      <input type="text" id="model" placeholder="(default)" />
+    </label>
+  </div>
+
+  <main class="main-area">
+    <!-- CHAT (left of top row) -->
+    <section class="pane pane-chat">
+      <div class="chat-log" id="chat-log">
+        <div class="hint">
+          <p>upload a pcap, then ask things like:</p>
+          <ul>
+            <li>"give me an overview of this capture"</li>
+            <li>"list all dns queries and flag anything suspicious"</li>
+            <li>"are there any cleartext credentials in here?"</li>
+            <li>"who is the top talker and what protocols are they using?"</li>
+          </ul>
+        </div>
+      </div>
+      <form class="composer" id="composer">
+        <textarea id="message" placeholder="ask a question about the capture…" rows="2" disabled></textarea>
+        <button type="submit" id="send-btn" disabled>send →</button>
+      </form>
+    </section>
+
+    <!-- TRACE (right of top row) -->
+    <aside class="pane pane-trace">
+      <div class="section-header">
+        <span class="section-title">tool trace</span>
+        <span class="section-sub" id="trace-sub">— live —</span>
+      </div>
+      <div class="trace-list" id="trace-list">
+        <div class="empty">no activity yet.</div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- PACKET TABLE -->
+  <section class="pane pane-table">
+    <div class="section-header">
+      <span class="section-title">packet table</span>
+      <span class="section-sub" id="table-sub">— last filter result —</span>
+    </div>
+    <div class="table-host" id="table-host">
+      <div class="empty">no filter run yet.</div>
+    </div>
+  </section>
+
+  <!-- PACKET DETAIL -->
+  <section class="pane pane-detail">
+    <div class="section-header">
+      <span class="section-title">packet detail</span>
+      <span class="section-sub" id="detail-sub">— click a frame to inspect —</span>
+    </div>
+    <div class="detail-host" id="detail-host">
+      <div class="empty">no packet selected.</div>
+    </div>
+  </section>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
